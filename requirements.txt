@@ -5,3 +5,4 @@ pandas~=1.1.4
 spacy~=2.3.4
 numpy~=1.19.4
 xlrd==1.2.0
+joblib~=1.0.0

@@ -22,19 +22,17 @@ class GFeatureExtractor:
         return text_feature
 
     def get_feature_token_words(self, text):
-        sentences = self.text_processor.tokenize_sentence(text=text)
         text_features = []
 
-        for sentence in sentences:
-            token_words = self.text_processor.tokenize_word(sample=sentence.text)
-            for t_word in token_words:
-                try:
-                    word_feature = self.model[t_word]
-                    text_features.append(word_feature)
-                except Exception as e:
-                    log_print(e)
+        token_words = self.text_processor.tokenize_word(sample=text)
+        for t_word in token_words:
+            try:
+                word_feature = self.model[t_word]
+                text_features.append(word_feature)
+            except Exception as e:
+                log_print(e)
 
-        text_feature = self.calculate_text_feature(word_features=text_features)
+        text_feature = list(map(float, self.calculate_text_feature(word_features=text_features)))
 
         return text_feature
 
