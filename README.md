@@ -49,6 +49,8 @@ model that is trained on 100 billion words from the Google News Dataset is used 
         python3 -m nltk.downloader all
     ```
 
+- Please create the "model" folder in "utils" folder and copy the word model to "model" folder.
+
 ## Execution
 
 - For training the model, please set TRAINING_DATA_PATH variable in settings file with the absolute path of the training 

@@ -3,8 +3,8 @@ import re
 import joblib
 import ntpath
 import pandas as pd
-import nltk
 
+from operator import add
 from nltk.tokenize import sent_tokenize
 from src.feature.extractor import GFeatureExtractor
 from src.preprocess.tokenizer import TextPreprocessor
@@ -38,15 +38,16 @@ class ArticleAnalyzer:
         sentences = sent_tokenize(text=text)
         for sent in sentences:
             sent_feature = self.feature_extractor.get_feature_token_words(text=sent)
-            input_feature = [title_feature + sent_feature]
-            pertinent_ret = self.pertinent_model.predict(input_feature)
+            input_feature = list(map(add, title_feature, sent_feature))
+            pertinent_ret = self.pertinent_model.predict([input_feature])
             if pertinent_ret == "Pertinent":
                 pertinents.append("True")
-                sent_category = self.sent_model.predict(input_feature)
+                sent_category = self.sent_model.predict([sent_feature])
                 sent_categories.append(sent_category[0])
             else:
                 pertinents.append("False")
                 sent_categories.append("")
+            # print(sent, "\n", sent_categories[-1])
 
         return sentences, sent_categories, pertinents
 

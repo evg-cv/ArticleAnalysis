@@ -3,6 +3,7 @@ import joblib
 import os
 import numpy as np
 
+from operator import add
 from ast import literal_eval
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
@@ -103,9 +104,9 @@ class ClassifierTrainer:
             title_feature = self.feature_extractor.get_feature_token_words(text=title_key)
             for sentence, label in training_data[title_key]:
                 sentence_feature = self.feature_extractor.get_feature_token_words(text=sentence)
-                pertinent_x_data.append(title_feature + sentence_feature)
+                pertinent_x_data.append(list(map(add, title_feature, sentence_feature)))
                 if label != "":
-                    sent_x_data.append(title_feature + sentence_feature)
+                    sent_x_data.append(sentence_feature)
                     sent_y_data.append(label)
                     pertinent_y_data.append("Pertinent")
                 else:
