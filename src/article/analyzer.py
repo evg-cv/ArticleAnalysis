@@ -57,14 +57,24 @@ class ArticleAnalyzer:
         data_frame = pd.read_excel(file_path)
         article_titles = data_frame["ARTICLE TITLE"].values.tolist()
         article_contents = data_frame["ARTICLE CONTENT"].values.tolist()
-        for art_title, art_content in zip(article_titles, article_contents):
+        classes = self.sent_model.classes_
+        headers = ["ARTICLE TITLE", "ARTICLE SENTENCES", "CATEGORY", "PERTINENT", "NUMBER OF SENTENCES",
+                   "NUMBER OF PERTINENTS", "NUMBER OF NON-PERTINENTS"] + list(classes)
+        for i, zip_data in enumerate(zip(article_titles, article_contents)):
+            art_title, art_content = zip_data
             sentences, sent_categories, pertinents = self.analyze_article(title=art_title, text=art_content)
-            pd.DataFrame([[art_title], sentences, sent_categories, pertinents]).T.to_csv(output_file_path, index=True,
-                                                                                         header=["ARTICLE TITLE",
-                                                                                                 "ARTICLE SENTENCES",
-                                                                                                 "CATEGORY",
-                                                                                                 "PERTINENT"],
-                                                                                         mode="a")
+            sent_len = len(sentences)
+            pertinent_len = pertinents.count("True")
+            non_pertinent_len = pertinents.count("False")
+            class_len = []
+            for sent_class in classes:
+                class_len.append([sent_categories.count(sent_class)])
+            data_list = [[art_title], sentences, sent_categories, pertinents, [sent_len], [pertinent_len],
+                         [non_pertinent_len]] + class_len
+            if i == 0:
+                pd.DataFrame(data_list).T.to_csv(output_file_path, index=False, header=headers, mode="w")
+            else:
+                pd.DataFrame(data_list).T.to_csv(output_file_path, index=False, header=False, mode="a")
 
         print(f"[INFO] Successfully saved the result in {output_file_path}")
 

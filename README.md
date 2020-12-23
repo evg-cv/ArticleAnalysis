@@ -26,6 +26,10 @@ model that is trained on 100 billion words from the Google News Dataset is used 
 
     The execution file for training
 
+- title
+
+    The execution file for title similarity estimation
+    
 - requirements
 
     All the dependencies for this project
@@ -67,12 +71,21 @@ absolute path of the excel file and run the following command in the terminal.
         python3 app.py
     ```
 
+- To compare the origin title with other titles, please set TITLE_SIMILARITY_EXCEL_PATH variable in settings file with 
+the absolute path of the excel path for title similarity estimation and run the following command.
+
+    ```
+        python3 title.py
+    ```
+  
 ## Note
 
-- When creating the training data file or excel file as an input file, please make the fields of the files the same as 
+- When creating the training data file, input file, title file as an input file, please make the fields of the files the same as 
 the sample file.
 
 - When inputting the values into the LABEL field of the training data, if the sentence is non-pertinent to title, you don't 
 have to insert any value like the part marked with red in the sample training data file.
 
-- Both of training data and input file has to be excel format.
+- When making title file, the other titles in OTHER TITLES field has to be separated with ";".
+
+- All of training data, input file and title file has to be excel format.

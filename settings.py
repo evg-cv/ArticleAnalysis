@@ -12,3 +12,4 @@ WORD_MODEL_PATH = os.path.join(CUR_DIR, 'utils', 'model', 'pruned.word2vec.txt')
 
 TRAINING_DATA_PATH = ""
 INPUT_EXCEL_PATH = ""
+TITLE_SIMILARITY_EXCEL_PATH = ""
