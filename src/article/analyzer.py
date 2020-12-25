@@ -5,10 +5,11 @@ import ntpath
 import pandas as pd
 
 from operator import add
+from sklearn.metrics.pairwise import cosine_similarity
 from nltk.tokenize import sent_tokenize
 from src.feature.extractor import GFeatureExtractor
 from src.preprocess.tokenizer import TextPreprocessor
-from settings import SENT_CLASSIFIER_MODEL_PATH, PERTINENT_MODEL_PATH, OUTPUT_DIR
+from settings import SENT_CLASSIFIER_MODEL_PATH, PERTINENT_MODEL_PATH, OUTPUT_DIR, THRESHOLD
 
 
 class ArticleAnalyzer:
@@ -38,8 +39,13 @@ class ArticleAnalyzer:
         sentences = sent_tokenize(text=text)
         for sent in sentences:
             sent_feature = self.feature_extractor.get_feature_token_words(text=sent)
+            if not sent_feature:
+                continue
             input_feature = list(map(add, title_feature, sent_feature))
-            pertinent_ret = self.pertinent_model.predict([input_feature])
+            if cosine_similarity([title_feature], [sent_feature])[0][0] > THRESHOLD:
+                pertinent_ret = "Pertinent"
+            else:
+                pertinent_ret = self.pertinent_model.predict([input_feature])
             if pertinent_ret == "Pertinent":
                 pertinents.append("True")
                 sent_category = self.sent_model.predict([sent_feature])

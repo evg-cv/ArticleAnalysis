@@ -32,7 +32,11 @@ class GFeatureExtractor:
             except Exception as e:
                 log_print(e)
 
-        text_feature = list(map(float, self.calculate_text_feature(word_features=text_features)))
+        try:
+            text_feature = list(map(float, self.calculate_text_feature(word_features=text_features)))
+        except Exception as e:
+            log_print(e)
+            text_feature = []
 
         return text_feature
 

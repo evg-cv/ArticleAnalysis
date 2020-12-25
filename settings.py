@@ -10,6 +10,8 @@ SENT_CLASSIFIER_MODEL_PATH = os.path.join(CUR_DIR, 'utils', 'model', 'sent_class
 PERTINENT_MODEL_PATH = os.path.join(CUR_DIR, 'utils', 'model', 'pertinent.pkl')
 WORD_MODEL_PATH = os.path.join(CUR_DIR, 'utils', 'model', 'pruned.word2vec.txt')
 
+THRESHOLD = 0.5
+
 TRAINING_DATA_PATH = ""
 INPUT_EXCEL_PATH = ""
 TITLE_SIMILARITY_EXCEL_PATH = ""
